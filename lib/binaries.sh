@@ -63,3 +63,24 @@ install_npm() {
     fi
   fi
 }
+
+install_libarchive() {
+  echo "-----> Install libarchive"
+  local build_dir=$1
+  local vendor_dir="vendor"
+
+  cd $build_dir
+  mkdir -p $vendor_dir
+  cd $vendor_dir
+  curl -L --silent https://github.com/fresvii/heroku-buildpack-libarchive-cedar-14/releases/download/v3.1.2/heroku-libarchive-3.1.2.tar.xz | tar xJ
+
+  echo "exporting C_INCLUDE_PATH and LIBRARY_PATH for building libs"
+  export C_INCLUDE_PATH="$C_INCLUDE_PATH:$HOME/vendor/libarchive/include"
+  export LIBRARY_PATH="$LIBRARY_PATH:$HOME/vendor/libarchive/lib"
+
+  echo "exporting PATH and LD_LIBRARY_PATH for runtime"
+  PROFILE_PATH="$build_dir/.profile.d/libarchive.sh"
+  mkdir -p $(dirname $PROFILE_PATH)
+  echo 'export PATH="$PATH:$HOME/vendor/libarchive/bin"' >> $PROFILE_PATH
+  echo 'export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$HOME/vendor/libarchive/lib"' >> $PROFILE_PATH
+}
