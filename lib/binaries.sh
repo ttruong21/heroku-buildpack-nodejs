@@ -75,8 +75,8 @@ install_libarchive() {
   curl -L --silent https://github.com/fresvii/heroku-buildpack-libarchive-cedar-14/releases/download/v3.1.2/heroku-libarchive-3.1.2.tar.xz | tar xJ
 
   echo "exporting C_INCLUDE_PATH and LIBRARY_PATH for building libs"
-  export C_INCLUDE_PATH="$C_INCLUDE_PATH:$HOME/vendor/libarchive/include"
-  export LIBRARY_PATH="$LIBRARY_PATH:$HOME/vendor/libarchive/lib"
+  export C_INCLUDE_PATH="$build_dir/$vendor_dir/libarchive/include"
+  export LIBRARY_PATH="$build_dir/$vendor_dir/libarchive/lib"
 
   echo "exporting PATH and LD_LIBRARY_PATH for runtime"
   PROFILE_PATH="$build_dir/.profile.d/libarchive.sh"
